@@ -1,4 +1,5 @@
 import { emailPattern, passwordPattern, usernamePattern } from "./const/regExp";
+import { invEmailErr, invPasswordErr, invUsernameErr, invAgeErr, invTermsAgreementErr } from "./const/errors"
 
 export class RegistrationForm {
 
@@ -12,8 +13,7 @@ export class RegistrationForm {
     setEmail(email: string) {
         switch (true) {
             case !email.match(emailPattern):
-                console.log(`Incorrect email is ${email}`);
-                throw new Error('Entered email is incorrect');
+                throw new Error(invEmailErr);
             default:
                 return this.email = email;
         }
@@ -22,7 +22,7 @@ export class RegistrationForm {
     setPassword(password: string) {
         switch (true) {
             case !password.match(passwordPattern):
-                throw new Error('Entered password is incorrect');
+                throw new Error(invPasswordErr);
             default:
                 return this.password = password;
         }
@@ -31,7 +31,7 @@ export class RegistrationForm {
     setUsername(username: string) {
         switch (true) {
             case !username.match(usernamePattern):
-                throw new Error('Entered username is incorrect');
+                throw new Error(invUsernameErr);
             default:
                 return this.username = username;
         }
@@ -39,8 +39,8 @@ export class RegistrationForm {
 
     setAge(age: number) {
         switch (true) {
-            case (age <= 0) && (age >= 150):
-                throw new Error('Entered age is incorrect');
+            case !((age > 0) && (age < 150)):
+                throw new Error(invAgeErr);
             default:
                 return this.age = age;
         }
@@ -53,15 +53,15 @@ export class RegistrationForm {
     register() {
         switch (true) {
             case this.email === undefined:
-                return `An invalid email was entered`;
+                return invEmailErr;
             case this.password === undefined:
-                return `An invalid password was entered`;
+                return invPasswordErr;
             case this.username === undefined:
-                return `An invalid username was entered`;
+                return invUsernameErr;
             case this.age === undefined:
-                return `An invalid age was entered`;
+                return invAgeErr;
             case this.termsAgreement === false:
-                return `You should accept the terms presented in the Terms and Conditions agreement to continue`;
+                return invTermsAgreementErr;
             default:
                 this.registered = true;
                 let registeredTimestamp: Date = new Date();
