@@ -1,5 +1,5 @@
-import { emailPattern, passwordPattern, usernamePattern } from "./const/regExp";
-import { invEmailErr, invPasswordErr, invUsernameErr, invAgeErr, invTermsAgreementErr } from "./const/errors"
+import { emailPattern, passwordPattern, usernamePattern } from "./data/constants/regExp";
+import { invEmailErr, invPasswordErr, invUsernameErr, invAgeErr, invTermsAgreementErr } from "./data/constants/errors"
 
 export class RegistrationForm {
 

@@ -1,0 +1,1 @@
+import { putMethod } from "../api";

@@ -1,0 +1,1 @@
+import { deleteMethod } from "../api";

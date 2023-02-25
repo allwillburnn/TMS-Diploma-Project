@@ -1,0 +1,1 @@
+import { postMethod } from "../api";

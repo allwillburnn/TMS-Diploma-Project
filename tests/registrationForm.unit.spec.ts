@@ -1,5 +1,5 @@
 import { RegistrationForm } from "../registrationForm";
-import { invEmailErr, invPasswordErr, invUsernameErr, invAgeErr, invTermsAgreementErr } from "../const/errors"
+import { invEmailErr, invPasswordErr, invUsernameErr, invAgeErr, invTermsAgreementErr } from "../data/constants/errors";
 
 describe("Registration form test cases", () => {
 
@@ -20,13 +20,17 @@ describe("Registration form test cases", () => {
     })
 
     test("User entered valid username", () => {
-        const username: string = "User";
-        expect(registrationForm.setUsername(username)).toBe(username);
+        const randomUsername: string = (Math.random() * (50) + 1).toString(36);
+        expect(registrationForm.setUsername(randomUsername)).toBe(randomUsername);
     })
 
     test("User entered valid age", () => {
-        const age: number = 26;
-        expect(registrationForm.setAge(age)).toBe(age);
+        for (let i = 0; i < 20; i++) {
+            let age: number = Math.floor(Math.random() * (148 - 2 + 1) + 2);
+            expect(registrationForm.setAge(age)).toBe(age);
+        }
+        expect(registrationForm.setAge(1)).toBe(1);
+        expect(registrationForm.setAge(149)).toBe(149);
     })
 
     test("User entered valid termsAgreement", () => {
