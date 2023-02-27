@@ -1,4 +1,4 @@
-import { ISinglePhotoModel } from "../../api/models/SinglePhotoModel";
+import { ISinglePhotoModel } from "../../api/models/photosModel";
 
 export const expectedPhoto1: ISinglePhotoModel = {
     albumId: 1,

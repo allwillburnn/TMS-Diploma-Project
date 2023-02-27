@@ -1,4 +1,4 @@
-import { ISingleAlbumModel } from "../../api/models/SingleAlbumModel";
+import { ISingleAlbumModel } from "../../api/models/albumsModel";
 
 export const expectedAlbum1: ISingleAlbumModel = {
     userId: 1,

@@ -27,39 +27,50 @@ async function handleResponse(response: AxiosResponse<any>, expectedStatusCode?:
 
 }
 
+// Default get and quey get? (Retarded paths on this site)
+
 export async function getMethod(route: string, id?: number, query?: object, expectedStatusCode?: number) {
-    const url: string = `${initialUrl}${route}/${id}`;
+
+    let url: string = "";
+
+    if (id === undefined) {
+        url = `${initialUrl}${route}`;
+    } else {
+        url = `${initialUrl}${route}/${id}`;
+    }
     // console.log(await axios.get(url, { params: query }));
-    // console.log(query);
-    const response: AxiosResponse = await axios.get(url, { params: query });
+    console.log(query);
+    console.log(url);
+    // console.log(await axios.get(url, { params: query } ?? {}));
+    const response: AxiosResponse = await axios.get(url, { params: query } ?? {});
+    return handleResponse(response, expectedStatusCode ?? 200);
+}
+
+
+export async function postMethod(route: string, id?: number, query?: object, expectedStatusCode?: number) {
+    const url: string = `${initialUrl}${route}/${id}`;
+    const response: AxiosResponse = await axios.post(url, { params: query });
     return handleResponse(response, expectedStatusCode);
 }
 
 
-export async function postMethod(route: string, query?: object, expectedStatusCode?: number) {
-    const url: string = `${initialUrl}${route}${query}`;
-    const response: AxiosResponse = await axios.get(url, { params: query });
+export async function putMethod(route: string, id?: number, query?: object, expectedStatusCode?: number) {
+    const url: string = `${initialUrl}${route}/${id}`;
+    const response: AxiosResponse = await axios.put(url, { params: query });
     return handleResponse(response, expectedStatusCode);
 }
 
 
-export async function putMethod(route: string, query?: object, expectedStatusCode?: number) {
-    const url: string = `${initialUrl}${route}${query}`;
-    const response: AxiosResponse = await axios.get(url);
+export async function patchMethod(route: string, id?: number, query?: object, expectedStatusCode?: number) {
+    const url: string = `${initialUrl}${route}/${id}`;
+    const response: AxiosResponse = await axios.patch(url, { params: query });
     return handleResponse(response, expectedStatusCode);
 }
 
 
-export async function patchMethod(route: string, query?: object, expectedStatusCode?: number) {
-    const url: string = `${initialUrl}${route}${query}`;
-    const response: AxiosResponse = await axios.get(url);
-    return handleResponse(response, expectedStatusCode);
-}
-
-
-export async function deleteMethod(route: string, query?: object, expectedStatusCode?: number) {
-    const url: string = `${initialUrl}${route}${query}`;
-    const response: AxiosResponse = await axios.get(url);
+export async function deleteMethod(route: string, id?: number, query?: object, expectedStatusCode?: number) {
+    const url: string = `${initialUrl}${route}/${id}`;
+    const response: AxiosResponse = await axios.delete(url, { params: query });
     return handleResponse(response, expectedStatusCode);
 }
 
