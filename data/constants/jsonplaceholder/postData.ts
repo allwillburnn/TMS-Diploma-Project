@@ -1,5 +1,19 @@
 import { ISinglePostModel } from "../../api/models/postsModel";
 
+export const dataForNewPost: ISinglePostModel = {
+    userId: 1,
+    id: 1,
+    title: "Test title",
+    body: "Test body"
+}
+
+export const dataForUpdatePost: ISinglePostModel = {
+    userId: 1,
+    id: 1,
+    title: "Updated title",
+    body: "Updated title"
+}
+
 export const expectedPost1: ISinglePostModel = {
     userId: 1,
     id: 1,
