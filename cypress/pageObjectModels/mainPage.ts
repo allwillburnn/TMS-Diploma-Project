@@ -5,7 +5,7 @@ class MainPage {
     private loginButtonLocator: string = "//div[@class='auth-bar__item auth-bar__item--text']";
     private loginFormLocator: string = "//div[@class='auth-form__body']/div/div[contains(text(), 'Вход')]";
     private firstAutoArticleLocator: string = "(//h2/a[contains(text(), 'Авто')]/../../../ul/li)[1]";
-    private firstAutoArticleTitleLocator: string = `${this.firstAutoArticleElement}//a/div/span[contains(@class, 'text')]`;
+    private firstAutoArticleTitleLocator: string = `${this.firstAutoArticleLocator}//a/div/span[contains(@class, 'text')]`;
 
     // Elements 
 
@@ -32,10 +32,8 @@ class MainPage {
         this.loginFormElement.should("be.visible");
     }
 
-    getFirstArticleTitle(): string {
-        let actualTitle: string = "";
-        this.firstAutoTitleElement.invoke('text').then((title) => { actualTitle = title });
-        return actualTitle;
+    getFirstArticleTitle() {
+        return this.firstAutoTitleElement.invoke('text');
     }
 
     goToFirstAutoArticle() {

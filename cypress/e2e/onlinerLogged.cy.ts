@@ -11,11 +11,15 @@ describe("Onliner main features (Logged in)", () => {
         cy.visit('/');
     })
 
-    it("User can react to article (Once)", () => {
-        mainPage.goToFirstAutoArticle();
-        const expectedArticleTitle: string = mainPage.getFirstArticleTitle();
-        mainPage.goToFirstAutoArticle();
-        articlePage.validateArticleTitle(expectedArticleTitle);
+    // Test will fail if there's no new article after previsious run
+
+    it.skip("User can react to article (Once)", () => {
+        mainPage.getFirstArticleTitle().then(expectedArticleTitle => {
+            mainPage.goToFirstAutoArticle();
+            articlePage.validateArticleTitle(expectedArticleTitle);
+            articlePage.verifyReactionCounter();
+        });
+        articlePage.verifyReactionBarStatus("st-reacted");
     })
 
 })
