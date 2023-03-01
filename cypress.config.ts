@@ -1,5 +1,5 @@
 import { defineConfig } from "cypress";
-import createBundler = require('@bahmutov/cypress-esbuild-preprocessor')
+import createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
 export default defineConfig({
   e2e: {
@@ -10,4 +10,6 @@ export default defineConfig({
   },
   watchForFileChanges: false,
   defaultCommandTimeout: 10000,
+  viewportHeight: 600,
+  viewportWidth: 1024
 });
