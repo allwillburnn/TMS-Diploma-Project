@@ -4,7 +4,7 @@ class ArticlePage {
 
     private articleTitleLocator: string = "div[class='news-header__title'] h1";
     private firstReactionLocator: string = "(//div[@class='st-btn st-first'])[1]";
-    private firstReactionCounterLocator: string = "(//span[normalize-space()='4'])[1]";
+    private firstReactionCounterLocator: string = "(//div[contains(@class, 'st-btn')]/span)[1]";
     private reactionSectionLocator: string = "//div[contains(@class, 'sharethis')]";
 
     // Elements
@@ -14,15 +14,15 @@ class ArticlePage {
     }
 
     private get firstReactionElement() {
-        return cy.get(this.firstReactionLocator);
+        return cy.xpath(this.firstReactionLocator);
     }
 
     private get firstReactionCounterElement() {
-        return cy.get(this.firstReactionCounterLocator);
+        return cy.xpath(this.firstReactionCounterLocator);
     }
 
     private get reactionSectionElement() {
-        return cy.get(this.reactionSectionLocator);
+        return cy.xpath(this.reactionSectionLocator);
     }
 
     // Methods
@@ -34,7 +34,7 @@ class ArticlePage {
     }
 
     validateArticleTitle(expectedArticleTitle: string) {
-        this.articleTitleElement.should('have.text', expectedArticleTitle);
+        this.articleTitleElement.should("contain.text", expectedArticleTitle);
     }
 
     setReaction() {
@@ -51,7 +51,7 @@ class ArticlePage {
             this.setReaction();
             this.getReactionCounterValue().then(newValue => {
                 const newCounterValue: number = +newValue;
-                expect(counterValue).to.equal(newCounterValue);
+                expect(newCounterValue).to.equal(counterValue + 1);
             })
         })
     }

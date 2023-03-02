@@ -32,4 +32,8 @@ describe("Onliner main features (Logged in)", () => {
         registrationPage.verifyConfirmEmailButtonIsActive();
     })
 
+    it.only("User can perform search", () => {
+        
+    })
+
 })

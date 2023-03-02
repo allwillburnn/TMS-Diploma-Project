@@ -6,6 +6,7 @@ class MainPage {
     private loginFormLocator: string = "//div[@class='auth-form__body']/div/div[contains(text(), 'Вход')]";
     private firstAutoArticleLocator: string = "(//h2/a[contains(text(), 'Авто')]/../../../ul/li)[1]";
     private firstAutoArticleTitleLocator: string = `${this.firstAutoArticleLocator}//a/div/span[contains(@class, 'text')]`;
+    private searchFieldLocator: string = "//input[contains(@class, 'fast-search')]";
 
     // Elements 
 
