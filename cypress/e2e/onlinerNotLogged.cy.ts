@@ -2,6 +2,8 @@ import { username, password, validNewEmail } from "../const/credentials";
 import { mainPage } from "../pageObjectModels/mainPage";
 import { loginPage } from "../pageObjectModels/loginPage";
 import { registrationPage } from "../pageObjectModels/registrationPage";
+import { searchIFrame } from "../pageObjectModels/iframes/searchIFrame";
+import { searchQueryWithCategory, searchQuery } from "../const/searchQueries";
 
 describe("Onliner main features (Logged in)", () => {
 
@@ -32,8 +34,17 @@ describe("Onliner main features (Logged in)", () => {
         registrationPage.verifyConfirmEmailButtonIsActive();
     })
 
-    it.only("User can perform search", () => {
-        
+    it("User can perform search", () => {
+        /* Search works now only from iframe, but we need to initialize search field on main page first.
+        Sometimes that work reverted...
+        */
+        mainPage.performSearch(searchQueryWithCategory[0]);
+        searchIFrame.validateSearchIFrameIsVisible();
+        searchIFrame.validateCategorySearchResults(searchQueryWithCategory[1]);
+        searchIFrame.clearSearchFieldAndValidateEmpty();
+        searchIFrame.performSearch(searchQuery);
+        searchIFrame.validateSearchResults(searchQuery);
+        searchIFrame.goToFirstFoundedProductAndValidate(searchQuery);
     })
 
 })

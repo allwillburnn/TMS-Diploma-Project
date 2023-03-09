@@ -26,6 +26,10 @@ class MainPage {
         return cy.xpath(this.firstAutoArticleTitleLocator);
     }
 
+    private get searchFieldElement() {
+        return cy.xpath(this.searchFieldLocator);
+    }
+
     // Methods
 
     goToLogin() {
@@ -39,6 +43,10 @@ class MainPage {
 
     goToFirstAutoArticle() {
         this.firstAutoArticleElement.click();
+    }
+
+    performSearch(searchQuery: string) {
+        this.searchFieldElement.type(searchQuery);
     }
 
 }
