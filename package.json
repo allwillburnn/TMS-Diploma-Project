@@ -15,6 +15,6 @@
     "jest-unit-tests": "npx jest --testMatch='**/tests/*.unit.spec.ts'",
     "jest-api-tests": "npx jest --testMatch='**/tests/*.api.spec.ts'",
     "cypress-e2e-tests": "npx cypress run",
-    "run-all-tests": "npx jest && npx cypress run"
+    "run-all-tests": "npx jest && npx cypress run --headless --browser chrome"
   }
 }

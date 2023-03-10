@@ -25,7 +25,7 @@ describe("Onliner main features (Logged in)", () => {
         articlePage.verifyReactionBarStatus("st-reacted");
     })
 
-    it.only("The user can place an order (before payment)", () => {
+    it("The user can place an order (before payment)", () => {
         mainPage.performSearch(searchQuery);
         searchIFrame.goToFirstFoundedProductAndValidate(searchQuery);
         productPage.addBestOfferToCartAndVerify();

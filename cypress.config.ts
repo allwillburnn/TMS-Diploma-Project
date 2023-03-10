@@ -9,6 +9,7 @@ export default defineConfig({
     baseUrl: "https://www.onliner.by/",
   },
   watchForFileChanges: false,
+  chromeWebSecurity: false,
   defaultCommandTimeout: 10000,
   viewportHeight: 720,
   viewportWidth: 1280

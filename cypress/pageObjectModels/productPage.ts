@@ -5,7 +5,7 @@ import { valueFilter } from "../const/regExp";
 class ProductPage {
 
     private productTitleOnProductPage: string = "";
-    private productPriceOnProductPage: number = null;
+    private productPriceBestOffer: number = null;
 
     // Locators
 
@@ -14,7 +14,8 @@ class ProductPage {
     private sortOffersSelectLocator: string = "//select[@class='input-style__real']";
     private firstOfferAddToCartButtonLocator: string = "(//a[contains(text(), 'В корзину')])[2]";
     private cartCounterLocator: string = "//a[@class='b-top-profile__cart']/span";
-    private productPriceOnProductPageLocator: string = "//div[@class='offers-description__price offers-description__price_primary']";
+    private productPriceBestOfferLocator: string = "((//a[contains(text(), 'В корзину')])[2]/../../../div/div/div)[1]";
+    private acceptNewWonderfulDeliveryLocator: string = "//span[contains(text(), 'Все ясно, спасибо')]";
 
     // Elements
 
@@ -38,8 +39,12 @@ class ProductPage {
         return cy.xpath(this.cartCounterLocator);
     }
 
-    private get productPriceOnProductPageElement() {
-        return cy.xpath(this.productPriceOnProductPageLocator);
+    private get productPriceBestOfferElement() {
+        return cy.xpath(this.productPriceBestOfferLocator);
+    }
+
+    private get acceptNewWonderfulDeliveryElement() {
+        return cy.xpath(this.acceptNewWonderfulDeliveryLocator);
     }
 
     // Methods
@@ -64,22 +69,23 @@ class ProductPage {
         })
     }
 
-    getProductPriceFromProductPage() {
-        this.productPriceOnProductPageElement.invoke('text').then((price) => {
-            this.productPriceOnProductPage = +price.trim().replace(valueFilter, '');
+    getProductPriceBestOffer() {
+        this.productPriceBestOfferElement.invoke('text').then((price) => {
+            this.productPriceBestOffer = +price.replace(valueFilter, '');
         })
     }
 
     addBestOfferToCartAndVerify() {
         let initialCartCounterValue: number = null;
         this.getProductTitleFromProductPage();
-        this.getProductPriceFromProductPage();
         this.goToOffersAndValidate();
+        this.getProductPriceBestOffer();
         this.cartCounterElement.invoke('text')
             .then((value) => {
                 initialCartCounterValue = +value;
             })
         this.sortOffersByAscending();
+        this.acceptNewWonderfulDeliveryElement.click();
         this.firstOfferAddToCartButtonElement.click();
         // Close popup if appears (There's some random popups, that will be closed after page reload)
         cy.reload();
@@ -96,8 +102,8 @@ class ProductPage {
         })
         cartPage.getProductPriceInCart().invoke('text').then((price) => {
             let productPriceInCart: number = null;
-            productPriceInCart = +price.trim().replace(valueFilter, '');
-            expect(productPriceInCart).equal(this.productPriceOnProductPage);
+            productPriceInCart = +price.replace(valueFilter, '');
+            expect(productPriceInCart).equal(this.productPriceBestOffer);
         })
     }
 }
