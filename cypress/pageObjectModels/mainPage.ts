@@ -7,6 +7,7 @@ class MainPage {
     private firstAutoArticleLocator: string = "(//h2/a[contains(text(), 'Авто')]/../../../ul/li)[1]";
     private firstAutoArticleTitleLocator: string = `${this.firstAutoArticleLocator}//a/div/span[contains(@class, 'text')]`;
     private searchFieldLocator: string = "//input[contains(@class, 'fast-search')]";
+    private catalogLocator: string = "//a[contains(@class, 'b-main-navigation__link')]/span[text()='Каталог']";
 
     // Elements 
 
@@ -30,6 +31,10 @@ class MainPage {
         return cy.xpath(this.searchFieldLocator);
     }
 
+    private get catalogElement() {
+        return cy.xpath(this.catalogLocator);
+    }
+
     // Methods
 
     goToLogin() {
@@ -47,6 +52,10 @@ class MainPage {
 
     performSearch(searchQuery: string) {
         this.searchFieldElement.type(searchQuery);
+    }
+
+    goToCatalog() {
+        this.catalogElement.click();
     }
 
 }

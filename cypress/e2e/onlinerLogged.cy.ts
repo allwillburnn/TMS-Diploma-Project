@@ -10,7 +10,7 @@ describe("Onliner main features (Logged in)", () => {
         cy.visit('/');
     })
 
-    // Test will fail if there's no new article after previsious run
+    // Test can fail if there's no new article after previsious run (user can react once)
 
     it("User can react to article (Once)", () => {
         mainPage.getFirstArticleTitle().then(expectedArticleTitle => {

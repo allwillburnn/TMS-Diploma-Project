@@ -4,6 +4,9 @@ import { loginPage } from "../pageObjectModels/loginPage";
 import { registrationPage } from "../pageObjectModels/registrationPage";
 import { searchIFrame } from "../pageObjectModels/iframes/searchIFrame";
 import { searchQueryWithCategory, searchQuery } from "../const/searchQueries";
+import { categoryCatalogPage } from "../pageObjectModels/categoryCatalogPage";
+import { catalogPage } from "../pageObjectModels/catalogPage";
+import { vendorName, frequency } from "../const/filters";
 
 describe("Onliner main features (Logged in)", () => {
 
@@ -45,6 +48,17 @@ describe("Onliner main features (Logged in)", () => {
         searchIFrame.performSearch(searchQuery);
         searchIFrame.validateSearchResults(searchQuery);
         searchIFrame.goToFirstFoundedProductAndValidate(searchQuery);
+    })
+
+    it("User can use filter", () => {
+        mainPage.goToCatalog();
+        catalogPage.goToComputersCategory();
+        catalogPage.goToLaptopsPcMonitorsCubcategory();
+        catalogPage.goToLaptopsPageAndVerify();
+        categoryCatalogPage.chooseVendorAndVerifyFilterApplied(vendorName);
+        categoryCatalogPage.chooseFrequencyAndVerifyFilterApplied(frequency[0], frequency[1], vendorName);
+        categoryCatalogPage.chooseSuperpriceAndVerifyFilterApplied();
+        categoryCatalogPage.clearVendorAndVerifyFilterDeleted(frequency[0], frequency[1], vendorName);
     })
 
 })
