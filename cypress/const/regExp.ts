@@ -1,0 +1,1 @@
+export const valueFilter: RegExp = /\D/g;

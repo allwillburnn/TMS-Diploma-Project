@@ -2,6 +2,10 @@ import { logIn } from "../helpers/logIn";
 import { mainPage } from "../pageObjectModels/mainPage";
 import { articlePage } from "../pageObjectModels/articlePage";
 import { oss } from "../const/cookies";
+import { searchQuery } from "../const/searchQueries";
+import { searchIFrame } from "../pageObjectModels/iframes/searchIFrame";
+import { productPage } from "../pageObjectModels/productPage";
+import { cartPage } from "../pageObjectModels/cartPage";
 
 describe("Onliner main features (Logged in)", () => {
 
@@ -19,6 +23,13 @@ describe("Onliner main features (Logged in)", () => {
             articlePage.verifyReactionCounter();
         });
         articlePage.verifyReactionBarStatus("st-reacted");
+    })
+
+    it.only("The user can place an order (before payment)", () => {
+        mainPage.performSearch(searchQuery);
+        searchIFrame.goToFirstFoundedProductAndValidate(searchQuery);
+        productPage.addBestOfferToCartAndVerify();
+        cartPage.clearCart();
     })
 
 })

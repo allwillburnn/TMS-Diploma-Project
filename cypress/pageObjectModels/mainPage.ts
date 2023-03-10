@@ -8,6 +8,7 @@ class MainPage {
     private firstAutoArticleTitleLocator: string = `${this.firstAutoArticleLocator}//a/div/span[contains(@class, 'text')]`;
     private searchFieldLocator: string = "//input[contains(@class, 'fast-search')]";
     private catalogLocator: string = "//a[contains(@class, 'b-main-navigation__link')]/span[text()='Каталог']";
+    private cartButtonLocator: string = "//a[@class='b-top-profile__cart']";
 
     // Elements 
 
@@ -35,6 +36,10 @@ class MainPage {
         return cy.xpath(this.catalogLocator);
     }
 
+    private get cartButtonElement() {
+        return cy.xpath(this.cartButtonLocator);
+    }
+
     // Methods
 
     goToLogin() {
@@ -56,6 +61,10 @@ class MainPage {
 
     goToCatalog() {
         this.catalogElement.click();
+    }
+
+    goToCart() {
+        this.cartButtonElement.click();
     }
 
 }

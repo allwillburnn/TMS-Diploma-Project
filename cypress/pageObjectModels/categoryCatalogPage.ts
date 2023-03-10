@@ -1,8 +1,8 @@
+import { valueFilter } from "../const/regExp";
 class CategoryCatalogPage {
 
     private initialCounterValue: number = null;
     private filteredCounterValue: number = null;
-    private valueFilter: RegExp = /\D/g;
 
     // Locators
 
@@ -64,14 +64,14 @@ class CategoryCatalogPage {
     chooseVendorAndVerifyFilterApplied(vendorName: string) {
         this.showAllVendorsButtonElement.click();
         this.productsFoundedcounterElement.invoke('text')
-            .then((value) => { this.initialCounterValue = +value.replace(this.valueFilter, '') });
+            .then((value) => { this.initialCounterValue = +value.replace(valueFilter, '') });
         cy.xpath(`//div[@class='schema-filter-popover__column-item']//span[@class='schema-filter__checkbox-text'][normalize-space()='${vendorName}']/../span/span`)
             .click();
         this.choosenVendorFiltersElement.should('contain.text', vendorName)
-            .wait(1000)
+            .wait(1500)
             .then(() => {
                 this.productsFoundedcounterElement.invoke('text')
-                    .then((value) => { this.filteredCounterValue = +value.replace(this.valueFilter, '') }).then(() => {
+                    .then((value) => { this.filteredCounterValue = +value.replace(valueFilter, '') }).then(() => {
                         expect(this.filteredCounterValue).lessThan(this.initialCounterValue);
                         this.initialCounterValue = this.filteredCounterValue;
                     });
@@ -84,10 +84,10 @@ class CategoryCatalogPage {
         this.frequencyFilterFromElement.select(`${hzValueFrom} Гц`);
         this.frequencyFilterToElement.select(`${hzValueTo} Гц`);
         this.choosenFrequencyFilterElement.should('contain.text', `${hzValueFrom} Гц — ${hzValueTo} Гц`)
-            .wait(1000)
+            .wait(1500)
             .then(() => {
                 this.productsFoundedcounterElement.invoke('text')
-                    .then((value) => { this.filteredCounterValue = +value.replace(this.valueFilter, '') }).then(() => {
+                    .then((value) => { this.filteredCounterValue = +value.replace(valueFilter, '') }).then(() => {
                         expect(this.filteredCounterValue).lessThan(this.initialCounterValue);
                         this.initialCounterValue = this.filteredCounterValue;
                     });

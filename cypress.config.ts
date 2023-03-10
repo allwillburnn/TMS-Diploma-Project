@@ -10,6 +10,6 @@ export default defineConfig({
   },
   watchForFileChanges: false,
   defaultCommandTimeout: 10000,
-  viewportHeight: 600,
-  viewportWidth: 1024
+  viewportHeight: 720,
+  viewportWidth: 1280
 });
