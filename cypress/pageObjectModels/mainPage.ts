@@ -9,11 +9,28 @@ class MainPage {
     private searchFieldLocator: string = "//input[contains(@class, 'fast-search')]";
     private catalogLocator: string = "//a[contains(@class, 'b-main-navigation__link')]/span[text()='Каталог']";
     private cartButtonLocator: string = "//a[@class='b-top-profile__cart']";
+    private kursLocator: string = "//span[@class='_u js-currency-amount']";
+    private kursDateLocator: string = "//th[@class='th-first']";
+    private usdRateTableLocator: string = "//b[normalize-space()='1 USD']";
+    private eurRateTableLocator: string = "//b[normalize-space()='1 EUR']";
+    private rubRateTableLocator: string = "//b[normalize-space()='100 RUB']";
 
     // Elements 
 
     private get loginButtonElement() {
         return cy.xpath(this.loginButtonLocator);
+    }
+
+    private get usdRateTableElement() {
+        return cy.xpath(this.usdRateTableLocator);
+    }
+
+    private get eurRateTableElement() {
+        return cy.xpath(this.eurRateTableLocator);
+    }
+
+    private get rubRateTableElement() {
+        return cy.xpath(this.rubRateTableLocator);
     }
 
     private get loginFormElement() {
@@ -40,11 +57,32 @@ class MainPage {
         return cy.xpath(this.cartButtonLocator);
     }
 
+    private get kursElement() {
+        return cy.xpath(this.kursLocator);
+    }
+
+    private get kursDateElement() {
+        return cy.xpath(this.kursDateLocator);
+    }
+
     // Methods
 
     goToLogin() {
         this.loginButtonElement.click();
         this.loginFormElement.should("be.visible");
+    }
+
+    goToKursAndValidate() {
+        this.kursElement.click();
+        cy.title().should('contain', 'Лучшие курсы валют');
+        const currentFullDate: Date = new Date();
+        const currentDate: number = currentFullDate.getDate();
+        this.kursDateElement.invoke('text').then((element) => {
+            expect(+element.split(' ')[0]).equal(currentDate);
+        })
+        this.usdRateTableElement.should('be.visible')
+        this.eurRateTableElement.should('be.visible')
+        this.rubRateTableElement.should('be.visible');
     }
 
     getFirstArticleTitle() {

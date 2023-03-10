@@ -7,6 +7,7 @@ import { searchQueryWithCategory, searchQuery } from "../const/searchQueries";
 import { categoryCatalogPage } from "../pageObjectModels/categoryCatalogPage";
 import { catalogPage } from "../pageObjectModels/catalogPage";
 import { vendorName, frequency } from "../const/filters";
+import { kursPage } from "../pageObjectModels/kursPage";
 
 describe("Onliner main features (Logged in)", () => {
 
@@ -59,6 +60,17 @@ describe("Onliner main features (Logged in)", () => {
         categoryCatalogPage.chooseFrequencyAndVerifyFilterApplied(frequency[0], frequency[1], vendorName);
         categoryCatalogPage.chooseSuperpriceAndVerifyFilterApplied();
         categoryCatalogPage.clearVendorAndVerifyFilterDeleted(frequency[0], frequency[1], vendorName);
+    })
+
+    it("Currency converter is working correctly", () => {
+        const currencyAmmount: number = Math.floor(Math.random() * 991 + 10);
+        mainPage.goToKursAndValidate();
+        kursPage.chooseBuyCurrency();
+        kursPage.enterAmmountAndValidate("test", 100);
+        kursPage.clearCurrencyInputField();
+        kursPage.enterAmmountAndValidate(currencyAmmount, currencyAmmount);
+        kursPage.changeCurrencyType("EUR");
+        kursPage.validateConvertedAmmount(currencyAmmount);
     })
 
 })
