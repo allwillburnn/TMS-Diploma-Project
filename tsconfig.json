@@ -4,5 +4,6 @@
       "module": "CommonJS",
       "types": ["node", "jest"],
       "target": "ESNext"
-  }
+  },
+  "exclude": ["cypress", "cypress.config.ts"]
 }
