@@ -14,6 +14,8 @@ class MainPage {
     private usdRateTableLocator: string = "//b[normalize-space()='1 USD']";
     private eurRateTableLocator: string = "//b[normalize-space()='1 EUR']";
     private rubRateTableLocator: string = "//b[normalize-space()='100 RUB']";
+    private realEstateButtonLocator: string = "//span[@class='b-main-navigation__text'][contains(text(),'Дома и квартиры')]";
+    private supportButtonLocator: string = "//a[contains(text(),'Поддержка пользователей')]";
 
     // Elements 
 
@@ -65,6 +67,10 @@ class MainPage {
         return cy.xpath(this.kursDateLocator);
     }
 
+    private get realEstateButtonElement() {
+        return cy.xpath(this.realEstateButtonLocator);
+    }
+
     // Methods
 
     goToLogin() {
@@ -103,6 +109,18 @@ class MainPage {
 
     goToCart() {
         this.cartButtonElement.click();
+    }
+
+    goToRentAndVerify() {
+        this.realEstateButtonElement.trigger('mouseover');
+        cy.xpath("(//span[contains(text(),'Минск')])[4]").click();
+        cy.title().should('contain', 'аренда');
+        cy.xpath("//div[@id='map']").should('be.visible');
+    }
+
+    goToSupportPageAndVerify() {
+        cy.xpath(this.supportButtonLocator).click();
+        cy.title().should('contain', 'Запрос в службу поддержки');
     }
 
 }

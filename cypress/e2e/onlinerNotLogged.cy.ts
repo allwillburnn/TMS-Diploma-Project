@@ -8,8 +8,11 @@ import { categoryCatalogPage } from "../pageObjectModels/categoryCatalogPage";
 import { catalogPage } from "../pageObjectModels/catalogPage";
 import { vendorName, frequency } from "../const/filters";
 import { kursPage } from "../pageObjectModels/kursPage";
+import { rentPage } from "../pageObjectModels/rentPage";
+import { supportPage } from "../pageObjectModels/supportPage";
+import { userData } from "../const/supportRequestData";
 
-describe("Onliner main features (Logged in)", () => {
+describe("Onliner main features (Not logged in)", () => {
 
     beforeEach(() => {
         cy.visit('/');
@@ -39,9 +42,7 @@ describe("Onliner main features (Logged in)", () => {
     })
 
     it("User can perform search", () => {
-        /* Search works now only from iframe, but we need to initialize search field on main page first.
-        Sometimes that work reverted...
-        */
+        // Sometimes search query works correctly only from iframe, but we need to initialize search field on main page first anyway (Seems like a Cypress type "feature")
         mainPage.performSearch(searchQueryWithCategory[0]);
         searchIFrame.validateSearchIFrameIsVisible();
         searchIFrame.validateCategorySearchResults(searchQueryWithCategory[1]);
@@ -71,6 +72,29 @@ describe("Onliner main features (Logged in)", () => {
         kursPage.enterAmmountAndValidate(currencyAmmount, currencyAmmount);
         kursPage.changeCurrencyType("EUR");
         kursPage.validateConvertedAmmount(currencyAmmount);
+    })
+
+    it("Real estate catalog works correctly", () => {
+        mainPage.goToRentAndVerify();
+        rentPage.setFlatFilterAndVerify();
+        rentPage.setRoomsFilterAndVerify(2);
+        rentPage.setPriceFilterAndVerify(500);
+        rentPage.setDistanceFromMetroAndVerify('Возле метро');
+        rentPage.sortByPriceAndVerify('Сначала дорогие');
+    })
+
+    it.only("The user can contact support", () => {
+        mainPage.goToSupportPageAndVerify();
+        supportPage.fillNameAndVerify(userData.correctName);
+        supportPage.clearNameAndVerify();
+        supportPage.fillEmailAndVerify(userData.incorrectEmail);
+        supportPage.clearEmailAndVerify();
+        supportPage.fillEmailAndVerify(userData.correctEmail);
+        supportPage.verifyDropdowns();
+        supportPage.verifyShortProblemDescriptionInput(userData.shortProblemDescription);
+        supportPage.verifyFullProblemDescriptionTextarea(userData.fullProblemDescription);
+        supportPage.verifyCaptcha();
+        supportPage.verifySendRequestButtonIsEnabled();
     })
 
 })
