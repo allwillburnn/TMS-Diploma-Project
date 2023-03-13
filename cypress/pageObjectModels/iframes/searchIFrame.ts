@@ -12,34 +12,34 @@ class SearchIFrame {
 
     // Elements
 
-    private get searchIFrameElement() {
+    private get searchIFrameElement(): Cypress.Chainable {
         return cy.getIFrameBody(this.searchIFrameLocator);
     }
 
-    private get productTitleOnProductPageElement() {
+    private get productTitleOnProductPageElement(): Cypress.Chainable {
         return cy.xpath(this.productTitleOnProductPageLocator);
     }
 
     // Methods
 
-    validateSearchIFrameIsVisible() {
+    validateSearchIFrameIsVisible(): void {
         this.searchIFrameElement.should('be.visible');
     }
 
-    performSearch(searchQuery: string) {
+    performSearch(searchQuery: string): void {
         this.searchIFrameElement
             .xpath(this.searchFieldLocator)
             .should('be.enabled')
             .clear().type(searchQuery);
     }
 
-    validateCategorySearchResults(categoryLink: string) {
+    validateCategorySearchResults(categoryLink: string): void {
         this.searchIFrameElement
             .xpath(this.searchResultItemCategoryLocator)
             .should('have.attr', 'href').and('equal', categoryLink);
     }
 
-    validateSearchResults(searchQuery: string) {
+    validateSearchResults(searchQuery: string): void {
         this.searchIFrameElement
             .each((title) => {
                 cy.wrap(title).should("be.visible").and('contain.text', searchQuery);
@@ -58,13 +58,13 @@ class SearchIFrame {
             });
     }
 
-    clearSearchFieldAndValidateEmpty() {
+    clearSearchFieldAndValidateEmpty(): void {
         this.searchIFrameElement
             .xpath(this.searchFieldLocator)
             .clear().should('be.empty');
     }
 
-    goToFirstFoundedProductAndValidate(searchQuery: string) {
+    goToFirstFoundedProductAndValidate(searchQuery: string): void {
 
         let productTitleOnSearchPage: string = "";
         let productTitleOnProductPage: string = "";

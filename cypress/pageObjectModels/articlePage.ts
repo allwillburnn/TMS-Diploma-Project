@@ -9,19 +9,19 @@ class ArticlePage {
 
     // Elements
 
-    private get articleTitleElement() {
+    private get articleTitleElement(): Cypress.Chainable {
         return cy.get(this.articleTitleLocator);
     }
 
-    private get firstReactionElement() {
+    private get firstReactionElement(): Cypress.Chainable {
         return cy.xpath(this.firstReactionLocator);
     }
 
-    private get firstReactionCounterElement() {
+    private get firstReactionCounterElement(): Cypress.Chainable {
         return cy.xpath(this.firstReactionCounterLocator);
     }
 
-    private get reactionSectionElement() {
+    private get reactionSectionElement(): Cypress.Chainable {
         return cy.xpath(this.reactionSectionLocator);
     }
 
@@ -33,19 +33,19 @@ class ArticlePage {
         return articleTitle;
     }
 
-    validateArticleTitle(expectedArticleTitle: string) {
+    validateArticleTitle(expectedArticleTitle: string): void {
         this.articleTitleElement.should("contain.text", expectedArticleTitle);
     }
 
-    setReaction() {
+    setReaction(): void {
         this.firstReactionElement.click();
     }
 
-    getReactionCounterValue() {
+    getReactionCounterValue(): Cypress.Chainable {
         return this.firstReactionCounterElement.invoke('text');
     }
 
-    verifyReactionCounter() {
+    verifyReactionCounter(): void {
         this.getReactionCounterValue().then(value => {
             const counterValue: number = +value;
             this.setReaction();
@@ -56,7 +56,7 @@ class ArticlePage {
         })
     }
 
-    verifyReactionBarStatus(status: string) {
+    verifyReactionBarStatus(status: string): void {
         this.reactionSectionElement.should('have.class', status);
     }
 

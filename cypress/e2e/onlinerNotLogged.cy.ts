@@ -11,6 +11,8 @@ import { kursPage } from "../pageObjectModels/kursPage";
 import { rentPage } from "../pageObjectModels/rentPage";
 import { supportPage } from "../pageObjectModels/supportPage";
 import { userData } from "../const/supportRequestData";
+import { productPage } from "../pageObjectModels/productPage";
+import { comparsionPage } from "../pageObjectModels/comparsionPage";
 
 describe("Onliner main features (Not logged in)", () => {
 
@@ -54,8 +56,8 @@ describe("Onliner main features (Not logged in)", () => {
 
     it("User can use filter", () => {
         mainPage.goToCatalog();
-        catalogPage.goToComputersCategory();
-        catalogPage.goToLaptopsPcMonitorsCubcategory();
+        catalogPage.openComputersCategory();
+        catalogPage.openLaptopsPcMonitorsSubcategory();
         catalogPage.goToLaptopsPageAndVerify();
         categoryCatalogPage.chooseVendorAndVerifyFilterApplied(vendorName);
         categoryCatalogPage.chooseFrequencyAndVerifyFilterApplied(frequency[0], frequency[1], vendorName);
@@ -69,7 +71,7 @@ describe("Onliner main features (Not logged in)", () => {
         kursPage.chooseBuyCurrency();
         kursPage.enterAmmountAndValidate("test", 100);
         kursPage.clearCurrencyInputField();
-        kursPage.enterAmmountAndValidate(currencyAmmount, currencyAmmount);
+        kursPage.enterAmmountAndValidate(currencyAmmount.toString(), currencyAmmount);
         kursPage.changeCurrencyType("EUR");
         kursPage.validateConvertedAmmount(currencyAmmount);
     })
@@ -83,7 +85,7 @@ describe("Onliner main features (Not logged in)", () => {
         rentPage.sortByPriceAndVerify('Сначала дорогие');
     })
 
-    it.only("The user can contact support", () => {
+    it("The user can contact support", () => {
         mainPage.goToSupportPageAndVerify();
         supportPage.fillNameAndVerify(userData.correctName);
         supportPage.clearNameAndVerify();
@@ -95,6 +97,28 @@ describe("Onliner main features (Not logged in)", () => {
         supportPage.verifyFullProblemDescriptionTextarea(userData.fullProblemDescription);
         supportPage.verifyCaptcha();
         supportPage.verifySendRequestButtonIsEnabled();
+    })
+
+    it("Products comparsion works correctly", () => {
+        let addedToComparsionProductsTitles: string[] = [];
+        let productTitlesOnComparsionPageArray: string[] = [];
+        mainPage.goToCatalog();
+        catalogPage.openElectronicsCategory();
+        catalogPage.openTvVideoCategory();
+        catalogPage.openTvCategoryAndVerify();
+        categoryCatalogPage.openProductPageAndVerify(2);
+        productPage.addProductToComparsionAndVerify(addedToComparsionProductsTitles);
+        productPage.returnToCatalogPage();
+        categoryCatalogPage.openProductPageAndVerify(3);
+        productPage.addProductToComparsionAndVerify(addedToComparsionProductsTitles);
+        categoryCatalogPage.goToComparsionPageAndVerify();
+        comparsionPage.getProductsTitlesInComparsion().each((title) => {
+            productTitlesOnComparsionPageArray.push(title.text());
+        })
+            .then(() => {
+                expect(productTitlesOnComparsionPageArray).to.include.members(addedToComparsionProductsTitles);
+            });
+
     })
 
 })

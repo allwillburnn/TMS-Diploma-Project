@@ -8,29 +8,29 @@ class CartPage {
 
     // Elements
 
-    private get productTitleInCartElement() {
+    private get productTitleInCartElement(): Cypress.Chainable {
         return cy.xpath(this.productTitleInCartLocator);
     }
 
-    private get productPriceInCartElement() {
+    private get productPriceInCartElement(): Cypress.Chainable {
         return cy.xpath(this.productPriceInCartLocator);
     }
 
-    private get deleteProductButtonElement() {
+    private get deleteProductButtonElement(): Cypress.Chainable {
         return cy.xpath(this.deleteProductButtonLocator);
     }
 
     // Methods
 
-    getProductTitleInCart() {
+    getProductTitleInCart(): Cypress.Chainable {
         return this.productTitleInCartElement;
     }
 
-    getProductPriceInCart() {
+    getProductPriceInCart(): Cypress.Chainable {
         return this.productPriceInCartElement;
     }
 
-    clearCart() {
+    clearCart(): void {
         this.deleteProductButtonElement.click({ force: true });
     }
 

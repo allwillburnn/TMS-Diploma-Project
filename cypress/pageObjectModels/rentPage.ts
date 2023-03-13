@@ -18,13 +18,13 @@ class RentPage {
 
     // Elements
 
-    private get advertsCounterElement() {
+    private get advertsCounterElement(): Cypress.Chainable {
         return cy.xpath(this.advertsLocator).invoke('text');
     }
 
     // Methods
 
-    setFlatFilterAndVerify() {
+    setFlatFilterAndVerify(): void {
         this.advertsCounterElement.then((value) => {
             this.initialAdvertsCounterValue = +value.replace(valueFilter, '');
         });
@@ -40,7 +40,7 @@ class RentPage {
         });
     }
 
-    setRoomsFilterAndVerify(rooms: number) {
+    setRoomsFilterAndVerify(rooms: number): void {
         this.advertsCounterElement.then((value) => {
             this.initialAdvertsCounterValue = +value.replace(valueFilter, '');
         });
@@ -55,7 +55,7 @@ class RentPage {
         });
     }
 
-    setPriceFilterAndVerify(price: number) {
+    setPriceFilterAndVerify(price: number): void {
         this.advertsCounterElement.then((value) => {
             this.initialAdvertsCounterValue = +value.replace(valueFilter, '');
         });
@@ -73,7 +73,7 @@ class RentPage {
         });
     }
 
-    setDistanceFromMetroAndVerify(distance: string) {
+    setDistanceFromMetroAndVerify(distance: string): void {
         this.advertsCounterElement.then((value) => {
             this.initialAdvertsCounterValue = +value.replace(valueFilter, '');
         });
@@ -86,7 +86,7 @@ class RentPage {
         });
     }
 
-    sortByPriceAndVerify(sortDirection: string) {
+    sortByPriceAndVerify(sortDirection: string): void {
         let initialAdvId: string = "";
         cy.xpath(this.firstFlatAdvertLocator).invoke('attr', 'data-id').then((id) => {
             initialAdvId = id;

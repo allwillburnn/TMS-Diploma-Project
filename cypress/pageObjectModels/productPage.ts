@@ -6,6 +6,8 @@ class ProductPage {
 
     private productTitleOnProductPage: string = "";
     private productPriceBestOffer: number = null;
+    private initialProductsInComparsion: number = 0;
+    private productsInComparsionAfterAdding: number = 0;
 
     // Locators
 
@@ -16,45 +18,55 @@ class ProductPage {
     private cartCounterLocator: string = "//a[@class='b-top-profile__cart']/span";
     private productPriceBestOfferLocator: string = "((//a[contains(text(), 'В корзину')])[2]/../../../div/div/div)[1]";
     private acceptNewWonderfulDeliveryLocator: string = "//span[contains(text(), 'Все ясно, спасибо')]";
+    private addToComparsionButtonLocator: string = "//span[contains(@class,'i-checkbox_yellow')]/span";
+    private productsInComparsionLocator: string = "//span[@data-bind='html: $root.text']";
 
     // Elements
 
-    private get offersElement() {
+    private get offersElement(): Cypress.Chainable {
         return cy.xpath(this.offersLocator);
     }
 
-    private get headerElement() {
+    private get headerElement(): Cypress.Chainable {
         return cy.xpath(this.headerLocator);
     }
 
-    private get sortOffersSelectElement() {
+    private get sortOffersSelectElement(): Cypress.Chainable {
         return cy.xpath(this.sortOffersSelectLocator);
     }
 
-    private get firstOfferAddToCartButtonElement() {
+    private get firstOfferAddToCartButtonElement(): Cypress.Chainable {
         return cy.xpath(this.firstOfferAddToCartButtonLocator);
     }
 
-    private get cartCounterElement() {
+    private get cartCounterElement(): Cypress.Chainable {
         return cy.xpath(this.cartCounterLocator);
     }
 
-    private get productPriceBestOfferElement() {
+    private get productPriceBestOfferElement(): Cypress.Chainable {
         return cy.xpath(this.productPriceBestOfferLocator);
     }
 
-    private get acceptNewWonderfulDeliveryElement() {
+    private get acceptNewWonderfulDeliveryElement(): Cypress.Chainable {
         return cy.xpath(this.acceptNewWonderfulDeliveryLocator);
+    }
+
+    private get addToComparsionButtonElement(): Cypress.Chainable {
+        return cy.xpath(this.addToComparsionButtonLocator);
+    }
+
+    private get productsInComparsionElement(): Cypress.Chainable {
+        return cy.xpath(this.productsInComparsionLocator);
     }
 
     // Methods
 
-    goToOffersAndValidate() {
+    goToOffersAndValidate(): void {
         this.offersElement.click();
         this.headerElement.should('contain.text', 'Цены');
     }
 
-    sortOffersByAscending() {
+    sortOffersByAscending(): void {
         this.sortOffersSelectElement
             .contains('возрастанию')
             .invoke('index')
@@ -63,19 +75,19 @@ class ProductPage {
             })
     }
 
-    getProductTitleFromProductPage() {
+    getProductTitleFromProductPage(): void {
         this.headerElement.invoke('text').then((title) => {
             this.productTitleOnProductPage = title.trim().split(' ').join(' ');
         })
     }
 
-    getProductPriceBestOffer() {
+    getProductPriceBestOffer(): void {
         this.productPriceBestOfferElement.invoke('text').then((price) => {
             this.productPriceBestOffer = +price.replace(valueFilter, '');
         })
     }
 
-    addBestOfferToCartAndVerify() {
+    addBestOfferToCartAndVerify(): void {
         let initialCartCounterValue: number = null;
         this.getProductTitleFromProductPage();
         this.goToOffersAndValidate();
@@ -105,6 +117,23 @@ class ProductPage {
             productPriceInCart = +price.replace(valueFilter, '');
             expect(productPriceInCart).equal(this.productPriceBestOffer);
         })
+    }
+
+    addProductToComparsionAndVerify(addedToComparsionProductsTitles: string[]): string[] {
+        this.getProductTitleFromProductPage();
+        this.addToComparsionButtonElement.click();
+        this.productsInComparsionElement.invoke('text')
+            .then((text) => {
+                this.initialProductsInComparsion++;
+                this.productsInComparsionAfterAdding = +text.replace(valueFilter, '');
+                expect(this.productsInComparsionAfterAdding).eq(this.initialProductsInComparsion);
+                addedToComparsionProductsTitles.push(this.productTitleOnProductPage);
+            });
+        return addedToComparsionProductsTitles;
+    }
+
+    returnToCatalogPage(): void {
+        cy.go('back');
     }
 }
 

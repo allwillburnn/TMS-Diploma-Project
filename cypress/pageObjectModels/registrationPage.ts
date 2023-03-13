@@ -15,83 +15,83 @@ class RegistrationPage {
 
     // Elements
 
-    private get emailFieldElement() {
+    private get emailFieldElement(): Cypress.Chainable {
         return cy.get(this.emailFieldLocator);
     }
 
-    private get passwordFieldElement() {
+    private get passwordFieldElement(): Cypress.Chainable {
         return cy.get(this.passwordFieldLocator);
     }
 
-    private get repeatPasswordFieldElement() {
+    private get repeatPasswordFieldElement(): Cypress.Chainable {
         return cy.get(this.repeatPasswordFieldLocator);
     }
 
-    private get acceptTosElement() {
+    private get acceptTosElement(): Cypress.Chainable {
         return cy.get(this.acceptTosLocator);
     }
 
-    private get registerNewAccountButtonElement() {
+    private get registerNewAccountButtonElement(): Cypress.Chainable {
         return cy.get(this.registerNewAccountButtonLocator);
     }
 
-    private get missedPasswordElement() {
+    private get missedPasswordElement(): Cypress.Chainable {
         return cy.xpath(this.missedPasswordLocator);
     }
 
-    private get missedRepeatPasswordElement() {
+    private get missedRepeatPasswordElement(): Cypress.Chainable {
         return cy.xpath(this.missedRepeatPasswordLocator);
     }
 
-    private get strongPasswordAnnotationElement() {
+    private get strongPasswordAnnotationElement(): Cypress.Chainable {
         return cy.xpath(this.strongPasswordAnnotationLocator);
     }
 
-    private get confirmEmailFormElement() {
+    private get confirmEmailFormElement(): Cypress.Chainable {
         return cy.xpath(this.confirmEmailFormLocator);
     }
 
-    private get goToMailButtonElement() {
+    private get goToMailButtonElement(): Cypress.Chainable {
         return cy.xpath(this.goToMailButtonLocator);
     }
 
     // Methods
 
-    setEmail(email: string) {
+    setEmail(email: string): void {
         this.emailFieldElement.type(email);
     }
 
-    setPassword(password: string) {
+    setPassword(password: string): void {
         this.passwordFieldElement.type(password);
     }
 
-    setRepeatPassword(password: string) {
+    setRepeatPassword(password: string): void {
         this.repeatPasswordFieldElement.type(password);
     }
 
-    acceptTos() {
+    acceptTos(): void {
         this.acceptTosElement.click();
     }
 
-    registerAccount() {
+    registerAccount(): void {
         this.registerNewAccountButtonElement.click();
     }
 
-    verifyMissedPasswordDescription() {
+    verifyMissedPasswordDescription(): void {
         this.passwordFieldElement.should("have.css", "background-color", "rgb(255, 231, 230)");
         this.missedPasswordElement.should("be.visible");
     }
 
-    verifyRepeatedMissedPasswordDescription() {
+    verifyRepeatedMissedPasswordDescription(): void {
         this.repeatPasswordFieldElement.should("have.css", "background-color", "rgb(255, 231, 230)");
         this.missedRepeatPasswordElement.should("be.visible");
     }
 
-    verifyStrenghtPasswordDescription() {
+    verifyStrenghtPasswordDescription(): void {
         this.strongPasswordAnnotationElement.should("be.visible");
     }
 
-    verifyConfirmEmailButtonIsActive() {
+    verifyConfirmEmailButtonIsActive(): void {
         this.confirmEmailFormElement.should("be.visible");
         this.goToMailButtonElement.should("be.visible");
     }

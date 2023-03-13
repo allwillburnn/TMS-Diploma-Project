@@ -19,66 +19,66 @@ class MainPage {
 
     // Elements 
 
-    private get loginButtonElement() {
+    private get loginButtonElement(): Cypress.Chainable {
         return cy.xpath(this.loginButtonLocator);
     }
 
-    private get usdRateTableElement() {
+    private get usdRateTableElement(): Cypress.Chainable {
         return cy.xpath(this.usdRateTableLocator);
     }
 
-    private get eurRateTableElement() {
+    private get eurRateTableElement(): Cypress.Chainable {
         return cy.xpath(this.eurRateTableLocator);
     }
 
-    private get rubRateTableElement() {
+    private get rubRateTableElement(): Cypress.Chainable {
         return cy.xpath(this.rubRateTableLocator);
     }
 
-    private get loginFormElement() {
+    private get loginFormElement(): Cypress.Chainable {
         return cy.xpath(this.loginFormLocator);
     }
 
-    private get firstAutoArticleElement() {
+    private get firstAutoArticleElement(): Cypress.Chainable {
         return cy.xpath(this.firstAutoArticleLocator);
     }
 
-    private get firstAutoTitleElement() {
+    private get firstAutoTitleElement(): Cypress.Chainable {
         return cy.xpath(this.firstAutoArticleTitleLocator);
     }
 
-    private get searchFieldElement() {
+    private get searchFieldElement(): Cypress.Chainable {
         return cy.xpath(this.searchFieldLocator);
     }
 
-    private get catalogElement() {
+    private get catalogElement(): Cypress.Chainable {
         return cy.xpath(this.catalogLocator);
     }
 
-    private get cartButtonElement() {
+    private get cartButtonElement(): Cypress.Chainable {
         return cy.xpath(this.cartButtonLocator);
     }
 
-    private get kursElement() {
+    private get kursElement(): Cypress.Chainable {
         return cy.xpath(this.kursLocator);
     }
 
-    private get kursDateElement() {
+    private get kursDateElement(): Cypress.Chainable {
         return cy.xpath(this.kursDateLocator);
     }
 
-    private get realEstateButtonElement() {
+    private get realEstateButtonElement(): Cypress.Chainable {
         return cy.xpath(this.realEstateButtonLocator);
     }
 
     // Methods
 
-    goToLogin() {
+    goToLogin(): void {
         this.loginButtonElement.click();
         this.loginFormElement.should("be.visible");
     }
 
-    goToKursAndValidate() {
+    goToKursAndValidate(): void {
         this.kursElement.click();
         cy.title().should('contain', 'Лучшие курсы валют');
         const currentFullDate: Date = new Date();
@@ -91,34 +91,34 @@ class MainPage {
         this.rubRateTableElement.should('be.visible');
     }
 
-    getFirstArticleTitle() {
+    getFirstArticleTitle(): Cypress.Chainable {
         return this.firstAutoTitleElement.invoke('text');
     }
 
-    goToFirstAutoArticle() {
+    goToFirstAutoArticle(): void {
         this.firstAutoArticleElement.click();
     }
 
-    performSearch(searchQuery: string) {
+    performSearch(searchQuery: string): void {
         this.searchFieldElement.type(searchQuery);
     }
 
-    goToCatalog() {
+    goToCatalog(): void {
         this.catalogElement.click();
     }
 
-    goToCart() {
+    goToCart(): void {
         this.cartButtonElement.click();
     }
 
-    goToRentAndVerify() {
+    goToRentAndVerify(): void {
         this.realEstateButtonElement.trigger('mouseover');
         cy.xpath("(//span[contains(text(),'Минск')])[4]").click();
         cy.title().should('contain', 'аренда');
         cy.xpath("//div[@id='map']").should('be.visible');
     }
 
-    goToSupportPageAndVerify() {
+    goToSupportPageAndVerify(): void {
         cy.xpath(this.supportButtonLocator).click();
         cy.title().should('contain', 'Запрос в службу поддержки');
     }

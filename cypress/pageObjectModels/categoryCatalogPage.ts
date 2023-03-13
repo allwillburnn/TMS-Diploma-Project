@@ -15,53 +15,55 @@ class CategoryCatalogPage {
     private frequencyFilterToLocator: string = "(//select[@class='schema-filter-control__item'])[10]";
     private superpriceFilterLocator: string = "//label[@class='schema-filter__bonus-item schema-filter__bonus-item_additional']";
     private superpriceLabelLocator: string = "//div[@class='schema-product__hot']";
-    private priceSchemaLocator: string = "//div[@class='schema-product__price']";
+    private productLocator: string = "(//span[contains(@data-bind, 'product.extended_name || product.full_name')])";
+    private productTitleOnProductPageLocator: string = "//h1[contains(@class,'catalog-masthead__title')]";
+    private comparsionPageLocator: string = "//a[@class='compare-button__sub compare-button__sub_main']";
 
     // Elements
 
-    private get showAllVendorsButtonElement() {
+    private get showAllVendorsButtonElement(): Cypress.Chainable {
         return cy.xpath(this.showAllVendorsButtonLocator);
     }
 
-    private get productsFoundedcounterElement() {
+    private get productsFoundedcounterElement(): Cypress.Chainable {
         return cy.xpath(this.productsFoundedcounterLocator);
     }
 
-    private get choosenVendorFiltersElement() {
+    private get choosenVendorFiltersElement(): Cypress.Chainable {
         return cy.xpath(this.choosenVendorFiltersLocator);
     }
 
-    private get choosenFrequencyFilterElement() {
+    private get choosenFrequencyFilterElement(): Cypress.Chainable {
         return cy.xpath(this.choosenFrequencyFilterLocator);
     }
 
-    private get choosenSuperpriceFilterElement() {
+    private get choosenSuperpriceFilterElement(): Cypress.Chainable {
         return cy.xpath(this.choosenSuperpriceFilterLocator);
     }
 
-    private get frequencyFilterFromElement() {
+    private get frequencyFilterFromElement(): Cypress.Chainable {
         return cy.xpath(this.frequencyFilterFromLocator);
     }
 
-    private get frequencyFilterToElement() {
+    private get frequencyFilterToElement(): Cypress.Chainable {
         return cy.xpath(this.frequencyFilterToLocator);
     }
 
-    private get superpriceFilterElement() {
+    private get superpriceFilterElement(): Cypress.Chainable {
         return cy.xpath(this.superpriceFilterLocator);
     }
 
-    private get priceSchemaElement() {
-        return cy.xpath(this.priceSchemaLocator);
+    private get superpriceLabelElements(): Cypress.Chainable {
+        return cy.xpath(this.superpriceLabelLocator);
     }
 
-    private get superpriceLabelElements() {
-        return cy.xpath(this.superpriceLabelLocator);
+    private get productTitleOnProductPageElement(): Cypress.Chainable {
+        return cy.xpath(this.productTitleOnProductPageLocator);
     }
 
     // Methods
 
-    chooseVendorAndVerifyFilterApplied(vendorName: string) {
+    chooseVendorAndVerifyFilterApplied(vendorName: string): void {
         this.showAllVendorsButtonElement.click();
         this.productsFoundedcounterElement.invoke('text')
             .then((value) => { this.initialCounterValue = +value.replace(valueFilter, '') });
@@ -80,7 +82,7 @@ class CategoryCatalogPage {
 
     // Next methods associated with each other (Should be used one after one)
 
-    chooseFrequencyAndVerifyFilterApplied(hzValueFrom: number, hzValueTo: number, vendorName: string) {
+    chooseFrequencyAndVerifyFilterApplied(hzValueFrom: number, hzValueTo: number, vendorName: string): void {
         this.frequencyFilterFromElement.select(`${hzValueFrom} Гц`);
         this.frequencyFilterToElement.select(`${hzValueTo} Гц`);
         this.choosenFrequencyFilterElement.should('contain.text', `${hzValueFrom} Гц — ${hzValueTo} Гц`)
@@ -95,7 +97,7 @@ class CategoryCatalogPage {
         this.choosenVendorFiltersElement.should('contain.text', vendorName);
     }
 
-    chooseSuperpriceAndVerifyFilterApplied() {
+    chooseSuperpriceAndVerifyFilterApplied(): void {
         this.superpriceFilterElement.click();
         this.choosenSuperpriceFilterElement.should('contain.text', "Суперцена");
         this.superpriceLabelElements.then((value) => {
@@ -103,13 +105,38 @@ class CategoryCatalogPage {
         })
     }
 
-    clearVendorAndVerifyFilterDeleted(hzValueFrom: number, hzValueTo: number, vendorName: string) {
+    clearVendorAndVerifyFilterDeleted(hzValueFrom: number, hzValueTo: number, vendorName: string): void {
         this.showAllVendorsButtonElement.click();
         cy.xpath(`//div[@class='schema-filter-popover__column-item']//span[@class='schema-filter__checkbox-text'][normalize-space()='${vendorName}']/../span/span`)
             .click();
         this.choosenVendorFiltersElement.should('not.exist');
         this.choosenFrequencyFilterElement.should('contain.text', `${hzValueFrom} Гц — ${hzValueTo} Гц`);
         this.choosenSuperpriceFilterElement.should('contain.text', "Суперцена");
+    }
+
+    //
+
+    openProductPageAndVerify(productPriority: number): void {
+        /* SyntaxError: missing ) after argument list - is related to broken script (Not this test).
+        Any product with commas in title will cause this error.
+        */
+        let productTitleOnCatalogPage: string = "";
+        let productTitleOnProductPage: string = "";
+        cy.xpath(`${this.productLocator}[${productPriority}]`).invoke('text')
+            .then((title) => {
+                productTitleOnCatalogPage = title;
+            })
+        cy.xpath(`${this.productLocator}[${productPriority}]`).click();
+        this.productTitleOnProductPageElement.invoke('text')
+            .then((title) => {
+                productTitleOnProductPage = title;
+                expect(productTitleOnProductPage).contain(productTitleOnCatalogPage);
+            })
+    }
+
+    goToComparsionPageAndVerify(): void {
+        cy.xpath(this.comparsionPageLocator).click();
+        cy.title().should('contain', 'Сравнить');
     }
 
 }
