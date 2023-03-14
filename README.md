@@ -1,3 +1,11 @@
+### Frameworks
+
+Unit tests - Jest
+API tests -  Jest + Axios
+E2E tests - Cypress
+
+### Commands
+
 Run only unit tests (Jest)
 `npm run jest-unit-tests`
 
