@@ -1,8 +1,8 @@
 ### Frameworks
 
-Unit tests - Jest
-API tests -  Jest + Axios
-E2E tests - Cypress
+Unit tests - Jest  
+API tests -  Jest + Axios  
+E2E tests - Cypress  
 
 ### Commands
 
