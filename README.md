@@ -1,10 +1,12 @@
-### Frameworks
+<p align="center"> ### Frameworks </p>
 
 Unit tests - Jest  
 API tests -  Jest + Axios  
 E2E tests - Cypress  
 
-### Commands
+------------
+
+<p align="center"> ### Commands </p>
 
 Run only unit tests (Jest)
 `npm run jest-unit-tests`
@@ -18,7 +20,9 @@ Run E2E tests (Cypress)
 Run all tests
 `npm run run-all-tests`
 
-### Tasks
+------------
+
+<p align="center"> ### Tasks </p>
 
 <details>
 <summary>Task 1</summary>
