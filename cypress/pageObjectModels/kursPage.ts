@@ -8,7 +8,7 @@ class KursPage {
     private currencyValueInputLocator: string = "//input[@id='amount-in']";
     private currencyTypeLocator: string = "//select[@id='currency-in']";
     private convertedCurrencyAmmountLocator: string = "//b[@class='js-cur-result']";
-    private eurBankSellLocator: string = "(//p[contains(@class, 'value rise')]/b)[2]";
+    private eurBankSellLocator: string = "(//p[contains(@class, 'value')]/b)[5]";
 
     // Elements
 
