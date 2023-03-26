@@ -16,6 +16,7 @@ class MainPage {
     private rubRateTableLocator: string = "//b[normalize-space()='100 RUB']";
     private realEstateButtonLocator: string = "//span[@class='b-main-navigation__text'][contains(text(),'Дома и квартиры')]";
     private supportButtonLocator: string = "//a[contains(text(),'Поддержка пользователей')]";
+    private cartCounterLocator: string = "//a[@class='b-top-profile__cart']/span";
 
     // Elements 
 
@@ -121,6 +122,21 @@ class MainPage {
     goToSupportPageAndVerify(): void {
         cy.xpath(this.supportButtonLocator).click();
         cy.title().should('contain', 'Запрос в службу поддержки');
+    }
+
+    clearCartIfNotEmpty(): void {
+        cy.xpath(this.cartCounterLocator).invoke('text')
+            .then((value) => {
+                if (value !== '0') {
+                    this.goToCart();
+                    cy.xpath("//a[contains(@class, 'cart-form__button_remove')]")
+                        .each((button) => {
+                            cy.wrap(button).click({ force: true });
+                        });
+                }
+            })
+        cy.go('back');
+        cy.xpath(this.cartCounterLocator).invoke('text').should('eq', '0');
     }
 
 }

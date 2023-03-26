@@ -24,6 +24,7 @@ describe("Onliner main features (Logged in)", () => {
     })
 
     it("The user can place an order (before payment)", () => {
+        mainPage.clearCartIfNotEmpty();
         mainPage.performSearch(searchQuery);
         searchIFrame.goToFirstFoundedProductAndValidate(searchQuery);
         productPage.addBestOfferToCartAndVerify();
