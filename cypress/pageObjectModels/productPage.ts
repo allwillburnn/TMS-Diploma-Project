@@ -97,7 +97,8 @@ class ProductPage {
                 initialCartCounterValue = +value;
             })
         this.sortOffersByAscending();
-        this.acceptNewWonderfulDeliveryElement.click();
+        // Sometimes other element can cover that element (User still can click on it)
+        this.acceptNewWonderfulDeliveryElement.click({ force: true });
         this.firstOfferAddToCartButtonElement.click();
         // Close popup if appears (There's some random popups, that will be closed after page reload)
         cy.reload();
